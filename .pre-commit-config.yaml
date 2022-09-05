@@ -1,0 +1,9 @@
+fail_fast: false
+repos:
+  - repo: local
+    hooks:
+      - id: oc-lint
+        name: oc-format
+        entry: format-objc-hook
+        language: script
+    
