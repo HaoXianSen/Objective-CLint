@@ -1,0 +1,11 @@
+---
+# This file tells https://pre-commit.com/
+# which hooks are provided by this repo
+# for use by other git repos.
+
+- id: oc-lint
+  name: oc-format
+  entry: format-objc-hook
+  description: Formats Objective-C
+  types_or: [objective-c]
+  language: shell
