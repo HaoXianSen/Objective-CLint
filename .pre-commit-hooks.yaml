@@ -8,4 +8,4 @@
   entry: format-objc-hook
   description: Formats Objective-C
   types_or: [objective-c]
-  language: shell
+  language: script
