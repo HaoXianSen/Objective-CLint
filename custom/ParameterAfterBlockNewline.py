@@ -1,6 +1,6 @@
 # ParameterAfterBlockNewline.py
 # Puts parameters following a block argument back on the same line instead of REALLY indenting on the next.
-#
+# 参数一行、而非递进
 # If a filename is specified as a parameter, it will change that file in place.
 # If input is provided through stdin, it will send the result to stdout.
 # Copyright 2016 Square, Inc
