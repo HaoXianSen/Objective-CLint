@@ -44,7 +44,11 @@ function format_objc() {
   return $success
 }
 
-success=0
-format_objc || (echo -e "\n🔴  There were formatting issues with this commit, run the👆 above👆 command to fix.\n💔  Commit anyway and skip this check by running git commit --no-verify" && success=1)
-
-exit $success
+result=format_objc
+if [ $result -eq 0 ]; then
+  exit 0
+else
+  echo -e "\n🔴  There were formatting issues with this commit, run the👆 above👆 command to fix.\n💔  Commit anyway and skip this check by running git commit --no-verify" && success=1
+  exit 1
+ 
+fi
