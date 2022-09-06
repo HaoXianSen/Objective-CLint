@@ -11,9 +11,15 @@ DIR=$(cd "$(dirname "${BASH_SOURCE[0]}")" && pwd)
 source "$DIR"/lib/common-lib.sh
 
 # Don't do anything unless a .clang-format file exists
-[ -e ".clang-format" ] || exit 0
+# if [ ! -f ".clang-format" ]; then
+#   echo 'lost .clang-format file'
+#   exit 0
+# fi
+
+echo "start check and auto fixed..."
 
 objc_files=$(objc_files_to_format "$1")
+
 [ -z "$objc_files" ] && exit 0
 
 function format_objc() {
@@ -21,7 +27,9 @@ function format_objc() {
   for file in $objc_files; do
     difference=$("$DIR"/format-objc-file-dry-run.sh "$file" | diff -q "$file" - | wc -l)
 
-    if [ $difference -gt 0 ]; then
+    echo "${difference}"
+    exit 1
+    if [ "$difference" -gt 0 ]; then
       if [ $success -eq 0 ]; then
         echo -e "🚸 Format and stage individual files:"
       fi
