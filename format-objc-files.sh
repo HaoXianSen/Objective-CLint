@@ -23,7 +23,12 @@ else
 	echo "Not staging changes. Run '${BASH_SOURCE[0]} -s $1' to stage them."
 fi
 
+echo "start check and auto fixed..."
+
 objc_files=$(objc_files_to_format "$optional_base_sha")
+echo "$objc_files"
+exit 1
+
 [ -z "$objc_files" ] && exit 0
 
 function format_objc() {

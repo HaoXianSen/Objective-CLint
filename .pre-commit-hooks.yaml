@@ -1,4 +1,3 @@
----
 # This file tells https://pre-commit.com/
 # which hooks are provided by this repo
 # for use by other git repos.
