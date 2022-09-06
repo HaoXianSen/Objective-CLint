@@ -21,8 +21,8 @@ echo "start check and auto fixed..."
 objc_files=$(objc_files_to_format "$1")
 
 [ -z "$objc_files" ] && exit 0
-
-function format_objc() {
+ 
+format_objc() {
   success=0
   echo "${success}"
   exit 1
@@ -44,6 +44,7 @@ function format_objc() {
 }
 
 result=format_objc
+exit 1
 if [ $result -eq 0 ]; then
   exit 0
 else
