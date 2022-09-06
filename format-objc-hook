@@ -24,11 +24,10 @@ objc_files=$(objc_files_to_format "$1")
 
 function format_objc() {
   success=0
+  echo "${success}"
+  exit 1
   for file in $objc_files; do
     difference=$("$DIR"/format-objc-file-dry-run.sh "$file" | diff -q "$file" - | wc -l)
-
-    echo "${difference}"
-    exit 1
     if [ "$difference" -gt 0 ]; then
       if [ $success -eq 0 ]; then
         echo -e "🚸 Format and stage individual files:"
