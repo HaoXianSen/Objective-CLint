@@ -5,6 +5,8 @@
 
 IFS=$'\n'
 
+set -x
+
 # If the repo contains a .formatting-directory file, only files in the specified directories will be returned (one directory per line).
 # If .formatting-directory doesn't exist then all files in the repository are checked.
 function directories_to_check() {
@@ -25,11 +27,16 @@ function directories_to_ignore() {
 # No parameters: return staged ObjC files only
 # Optional parameter: a git SHA. Returns a list of all ObjC files which have changed since that SHA
 function objc_files_to_format() {
-	optional_base_sha="$1"
+	# optional_base_sha="$1"
 	directories_to_check
 	# optional_base_sha is intentionally unescaped so that it will not appear as empty quotes.
-	files=$(git diff --cached --name-only $optional_base_sha --diff-filter=ACM -- $locations_to_diff | grep -e '\.m$' -e '\.mm$' -e '\.h$' -e '\.hh$')
+	# files=$(git diff --cached --name-only | grep -e '\.m$' -e '\.mm$' -e '\.h$' -e '\.hh$')
+	# filter all .h .m .mm file
+	allArgs=("$@")
+	allFiles=$(IFS=$'\n'; echo "${allArgs[*]}")
+	files=$(echo "$allFiles" | grep -e '/.m$' -e '/.mm$' -e '/.h$' -e '/.hh$')
 	directories_to_ignore
+	echo "${files[*]}"
 	echo "$files" | grep -v 'Pods/' | grep -v 'Carthage/' >&1
 }
 

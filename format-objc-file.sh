@@ -60,6 +60,7 @@ function format_objc_file_dry_run() {
 	# "#pragma Formatter Exempt" or "// MARK: Formatter Exempt" means don't format this file.
 	# Read the first line and trim it.
 	line="$(head -1 "$FILE" | xargs)"
+	
 	if [ "$line" == "#pragma Formatter Exempt" -o "$line" == "// MARK: Formatter Exempt" ]; then
 		cat "$1"
 		return
@@ -70,7 +71,7 @@ function format_objc_file_dry_run() {
 		/usr/bin/python3 "$DIR"/custom/InlineConstructorOnSingleLine.py |
 		/usr/bin/python3 "$DIR"/custom/MacroSemicolonAppender.py |
 		/usr/bin/python3 "$DIR"/custom/DoubleNewlineInserter.py |
-		"$DIR"/bin/clang-format-12.0.0-244022a3cd75b51dcf1d2a5a822419492ce79e47 -style=file |
+		"$DIR"/bin/clang-format-12.0.0-244022a3cd75b51dcf1d2a5a822419492ce79e47 -style=file --verbose |
 		/usr/bin/python3 "$DIR"/custom/GenericCategoryLinebreakIndentation.py |
 		/usr/bin/python3 "$DIR"/custom/ParameterAfterBlockNewline.py |
 		/usr/bin/python3 "$DIR"/custom/HasIncludeSpaceRemover.py |

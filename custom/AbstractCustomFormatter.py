@@ -4,7 +4,6 @@
 # If a filename is specified as a parameter, it will change that file in place.
 # If input is provided through stdin, it will send the result to stdout.
 # Copyright 2015 Square, Inc
-
 import sys
 
 class AbstractCustomFormatter(object):

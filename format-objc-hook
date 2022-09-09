@@ -10,42 +10,49 @@ export CDPATH=""
 DIR=$(cd "$(dirname "${BASH_SOURCE[0]}")" && pwd)
 source "$DIR"/lib/common-lib.sh
 
+echo "$@"
+
 # Don't do anything unless a .clang-format file exists
-# if [ ! -f ".clang-format" ]; then
-#   echo 'lost .clang-format file'
-#   exit 0
-# fi
-
-echo "start check and auto fixed..."
-
-objc_files=$(objc_files_to_format "$1")
-
-[ -z "$objc_files" ] && exit 0
- 
-format_objc() {
-  success=0
-  echo "${success}"
+# ln -sf "$DIR/.clang-format" ".clang-format"
+if [ ! -f ".clang-format" ]; then
+  echo 'lost .clang-format file'
   exit 1
-  for file in $objc_files; do
-    difference=$("$DIR"/format-objc-file-dry-run.sh "$file" | diff -q "$file" - | wc -l)
-    if [ "$difference" -gt 0 ]; then
-      if [ $success -eq 0 ]; then
-        echo -e "🚸 Format and stage individual files:"
-      fi
-      # This is what the dev can run to fixup an individual file
-      echo "\"$DIR\"/format-objc-file.sh '$file' && git add '$file';"
-      success=1
-    fi
-  done
-  if [ $success -gt 0 ]; then
-    echo -e "\n🚀  Format and stage all affected files:\n\t \"$DIR\"/format-objc-files.sh -s"
-  fi
+fi
+
+objc_files=$(objc_files_to_format "$@")
+
+# if not have check files quit process
+if [ -z "$objc_files" ]; then 
+#  echo 'not find can check object-c files'
+ exit 0
+fi
+ 
+function format_objc() {
+  success=0
+  # for file in $objc_files; do
+  #   "$DIR"/format-objc-file-dry-run.sh "$file"
+  #   difference=$(diff -q "$file" "$?"  | wc -l)
+  #   if [ "$difference" -gt 0 ]; then
+  #     if [ $success -eq 0 ]; then
+  #       echo -e "🚸 Format and stage individual files:"
+  #     fi
+  #     # This is what the dev can run to fixup an individual file
+  #     echo "\"$DIR\"/format-objc-file.sh '$file' && git add '$file';"
+  #     success=1
+  #   fi
+  # done
+  # if [ $success -gt 0 ]; then
+  #   echo -e "\n🚀  Format and stage all affected files:\n\t \"$DIR\"/format-objc-files.sh -s"
+  # fi
   return $success
 }
 
-result=format_objc
-exit 1
-if [ $result -eq 0 ]; then
+format_objc
+result=$?
+result=1
+exit 2
+
+if [[ $result -eq 0 ]]; then
   exit 0
 else
   echo -e "\n🔴  There were formatting issues with this commit, run the👆 above👆 command to fix.\n💔  Commit anyway and skip this check by running git commit --no-verify" && success=1
