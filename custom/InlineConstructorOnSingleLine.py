@@ -6,13 +6,15 @@
 # If input is provided through stdin, it will send the result to stdout.
 # Copyright 2015 Square, Inc
 
+from itertools import count
 from AbstractCustomFormatter import AbstractCustomFormatter
 
+
 class InlineConstructorOnSingleLine(AbstractCustomFormatter):
-    def format_lines(self, lines):
+    def format_lines(self, lines, file):
         lines_to_write = []
         preceding_line_ends_with_closing_paren = False
-        for _, line in enumerate(lines):
+        for index, line in enumerate(lines):
             stripped_line = line.strip()
 
             if stripped_line.startswith(":") and preceding_line_ends_with_closing_paren:
@@ -27,6 +29,7 @@ class InlineConstructorOnSingleLine(AbstractCustomFormatter):
                 preceding_line_ends_with_closing_paren = False
 
         return "".join(lines_to_write)
+
 
 if __name__ == "__main__":
     InlineConstructorOnSingleLine().run()

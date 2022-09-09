@@ -8,11 +8,11 @@
 from AbstractCustomFormatter import AbstractCustomFormatter
 
 class ParameterAfterBlockNewline(AbstractCustomFormatter):
-    def format_lines(self, lines):
+    def format_lines(self, lines, file):
         lines_to_write = []
         preceding_line_block_literal_param = False
 
-        for line in lines:
+        for line_index, line in enumerate(lines):
             stripped_line = line.strip()
             indentation_len = len(line) - len(line.lstrip())
             # Some rough heuristics to determine if there's a stray, floating param which broke off from a message send
@@ -24,6 +24,8 @@ class ParameterAfterBlockNewline(AbstractCustomFormatter):
             if final_adrift_param or adrift_param:
                 block_param_line = lines_to_write[-1].rstrip()
                 lines_to_write[-1] = block_param_line + " " + line.lstrip()
+                line_index = "第{0}行\n".format(line_index)
+                self.errorMsg += ("\033[31m自定义规则format错误：参数一行、而非递进\n" + "line: " + line_index + line + '\n' + 'at: ' + file + "\033[0m\n")
                 continue
 
             # Match "}," exactly, 

@@ -7,7 +7,7 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
-		7035FBC028C620C6005C7C9A /* AppDelegate.m in Sources */ = {isa = PBXBuildFile; fileRef = 7035FBBF28C620C6005C7C9A /* AppDelegate.m */; };
+		7035FBC028C620C6005C7C9A /* AppDelegate.mm in Sources */ = {isa = PBXBuildFile; fileRef = 7035FBBF28C620C6005C7C9A /* AppDelegate.mm */; };
 		7035FBC328C620C6005C7C9A /* SceneDelegate.m in Sources */ = {isa = PBXBuildFile; fileRef = 7035FBC228C620C6005C7C9A /* SceneDelegate.m */; };
 		7035FBC628C620C6005C7C9A /* ViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 7035FBC528C620C6005C7C9A /* ViewController.m */; };
 		7035FBC928C620C6005C7C9A /* Main.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 7035FBC728C620C6005C7C9A /* Main.storyboard */; };
@@ -39,7 +39,7 @@
 /* Begin PBXFileReference section */
 		7035FBBB28C620C6005C7C9A /* Demo.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = Demo.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		7035FBBE28C620C6005C7C9A /* AppDelegate.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = AppDelegate.h; sourceTree = "<group>"; };
-		7035FBBF28C620C6005C7C9A /* AppDelegate.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = AppDelegate.m; sourceTree = "<group>"; };
+		7035FBBF28C620C6005C7C9A /* AppDelegate.mm */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.objcpp; path = AppDelegate.mm; sourceTree = "<group>"; };
 		7035FBC128C620C6005C7C9A /* SceneDelegate.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = SceneDelegate.h; sourceTree = "<group>"; };
 		7035FBC228C620C6005C7C9A /* SceneDelegate.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = SceneDelegate.m; sourceTree = "<group>"; };
 		7035FBC428C620C6005C7C9A /* ViewController.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = ViewController.h; sourceTree = "<group>"; };
@@ -105,7 +105,7 @@
 			isa = PBXGroup;
 			children = (
 				7035FBBE28C620C6005C7C9A /* AppDelegate.h */,
-				7035FBBF28C620C6005C7C9A /* AppDelegate.m */,
+				7035FBBF28C620C6005C7C9A /* AppDelegate.mm */,
 				7035FBC128C620C6005C7C9A /* SceneDelegate.h */,
 				7035FBC228C620C6005C7C9A /* SceneDelegate.m */,
 				7035FBC428C620C6005C7C9A /* ViewController.h */,
@@ -267,7 +267,7 @@
 			buildActionMask = 2147483647;
 			files = (
 				7035FBC628C620C6005C7C9A /* ViewController.m in Sources */,
-				7035FBC028C620C6005C7C9A /* AppDelegate.m in Sources */,
+				7035FBC028C620C6005C7C9A /* AppDelegate.mm in Sources */,
 				7035FBD128C620C8005C7C9A /* main.m in Sources */,
 				7035FBC328C620C6005C7C9A /* SceneDelegate.m in Sources */,
 			);

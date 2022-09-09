@@ -7,8 +7,10 @@
 
 from AbstractCustomFormatter import AbstractCustomFormatter
 
+
 class MacroSemicolonAppender(AbstractCustomFormatter):
-    def format_lines(self, lines):
+
+    def format_lines(self, lines, file):
         lines_to_write = []
         preceding_line_ends_with_backslash = False
         preceding_line_ends_with_comma = False
@@ -43,6 +45,7 @@ class MacroSemicolonAppender(AbstractCustomFormatter):
                 preceding_line_ends_with_comma = False
 
         return "".join(lines_to_write)
+
 
 if __name__ == "__main__":
     MacroSemicolonAppender().run()

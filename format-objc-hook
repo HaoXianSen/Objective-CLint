@@ -10,8 +10,6 @@ export CDPATH=""
 DIR=$(cd "$(dirname "${BASH_SOURCE[0]}")" && pwd)
 source "$DIR"/lib/common-lib.sh
 
-echo "$@"
-
 # Don't do anything unless a .clang-format file exists
 # ln -sf "$DIR/.clang-format" ".clang-format"
 if [ ! -f ".clang-format" ]; then
@@ -29,33 +27,22 @@ fi
  
 function format_objc() {
   success=0
-  # for file in $objc_files; do
-  #   "$DIR"/format-objc-file-dry-run.sh "$file"
-  #   difference=$(diff -q "$file" "$?"  | wc -l)
-  #   if [ "$difference" -gt 0 ]; then
-  #     if [ $success -eq 0 ]; then
-  #       echo -e "🚸 Format and stage individual files:"
-  #     fi
-  #     # This is what the dev can run to fixup an individual file
-  #     echo "\"$DIR\"/format-objc-file.sh '$file' && git add '$file';"
-  #     success=1
-  #   fi
-  # done
-  # if [ $success -gt 0 ]; then
-  #   echo -e "\n🚀  Format and stage all affected files:\n\t \"$DIR\"/format-objc-files.sh -s"
-  # fi
+  for file in $objc_files; do
+    "$DIR"/format-objc-file-dry-run.sh "$file"
+     check_file=$?
+     diffrence=$(diff -q "$file" "$check_file" | wc -l)
+     if [ "$diffrence" -gt 0 ]; then
+         success=1
+     fi
+  done
+   if [ $success -gt 0 ]; then
+     echo -e "\033[34m 请修复以上格式问题，之后再次commit...\033[0m"
+   else
+     echo -e "\033[34m 恭喜您，Objective-c 没有发现问题🍺🍺🍺\033[0m"
+   fi
   return $success
 }
 
 format_objc
 result=$?
-result=1
-exit 2
-
-if [[ $result -eq 0 ]]; then
-  exit 0
-else
-  echo -e "\n🔴  There were formatting issues with this commit, run the👆 above👆 command to fix.\n💔  Commit anyway and skip this check by running git commit --no-verify" && success=1
-  exit 1
- 
-fi
+exit $result

@@ -8,7 +8,7 @@
 from AbstractCustomFormatter import AbstractCustomFormatter
 
 class DoubleNewlineInserter(AbstractCustomFormatter):
-    def format_lines(self, lines):
+    def format_lines(self, lines, file):
         lines_to_write = []
         needs_double_newline_added = False
         comment_section = False

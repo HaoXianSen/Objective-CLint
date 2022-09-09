@@ -5,8 +5,6 @@
 
 IFS=$'\n'
 
-set -x
-
 # If the repo contains a .formatting-directory file, only files in the specified directories will be returned (one directory per line).
 # If .formatting-directory doesn't exist then all files in the repository are checked.
 function directories_to_check() {
@@ -34,10 +32,8 @@ function objc_files_to_format() {
 	# filter all .h .m .mm file
 	allArgs=("$@")
 	allFiles=$(IFS=$'\n'; echo "${allArgs[*]}")
-	files=$(echo "$allFiles" | grep -e '/.m$' -e '/.mm$' -e '/.h$' -e '/.hh$')
+	files=$(echo "$allFiles" | grep -e '\.m$' -e '\.mm$' -e '\.h$' -e '\.hh$')
 	directories_to_ignore
-	echo "${files[*]}"
-	exit 3
 	echo "$files" | grep -v 'Pods/' | grep -v 'Carthage/' >&1
 }
 
