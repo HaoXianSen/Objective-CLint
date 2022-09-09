@@ -37,6 +37,7 @@ function objc_files_to_format() {
 	files=$(echo "$allFiles" | grep -e '/.m$' -e '/.mm$' -e '/.h$' -e '/.hh$')
 	directories_to_ignore
 	echo "${files[*]}"
+	exit 3
 	echo "$files" | grep -v 'Pods/' | grep -v 'Carthage/' >&1
 }
 
