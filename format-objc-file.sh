@@ -66,18 +66,19 @@ function format_objc_file_dry_run() {
 		return
 	fi
 
-  echo -e "\033[31m 文件$1中存在如下问题：\n \033[0m"
+#   echo -e "\033[31m 文件$1中存在如下问题：\n \033[0m"
   # clang-format gets confused
-	cat "$1" | /usr/bin/python3 "$DIR"/custom/LiteralSymbolSpacer.py "$1" |
-	/usr/bin/python3 "$DIR"/custom/InlineConstructorOnSingleLine.py "$1" |
-	/usr/bin/python3 "$DIR"/custom/MacroSemicolonAppender.py "$1" |
-	/usr/bin/python3 "$DIR"/custom/DoubleNewlineInserter.py "$1" |
-	"$DIR"/bin/clang-format-12.0.0-244022a3cd75b51dcf1d2a5a822419492ce79e47 -style=file --dry-run |
+	cat "$1" | 
+	 /usr/bin/python3 "$DIR"/custom/LiteralSymbolSpacer.py "$1" |
+	 /usr/bin/python3 "$DIR"/custom/InlineConstructorOnSingleLine.py "$1" |
+	 /usr/bin/python3 "$DIR"/custom/MacroSemicolonAppender.py "$1" |
+	 /usr/bin/python3 "$DIR"/custom/DoubleNewlineInserter.py "$1" |
+	"$DIR"/bin/clang-format-12.0.0-244022a3cd75b51dcf1d2a5a822419492ce79e47 -style=file |
 	# 泛型取消多余的缩进
 	/usr/bin/python3 "$DIR"/custom/GenericCategoryLinebreakIndentation.py "$1" |
 	/usr/bin/python3 "$DIR"/custom/ParameterAfterBlockNewline.py "$1" |
 	/usr/bin/python3 "$DIR"/custom/HasIncludeSpaceRemover.py "$1" |
-	/usr/bin/python3 "$DIR"/custom/NewLineAtEndOfFileInserter.py "$1" | cat
+	/usr/bin/python3 "$DIR"/custom/NewLineAtEndOfFileInserter.py "$1"
 }
 
 function format_objc_file() {

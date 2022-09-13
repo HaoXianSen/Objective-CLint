@@ -6,4 +6,5 @@ repos:
         name: oc-format
         entry: format-objc-hook
         language: script
+        require_serial: true
     

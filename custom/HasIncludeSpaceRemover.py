@@ -21,12 +21,12 @@ class HasIncludeSpaceRemover(AbstractCustomFormatter):
                     # Remove the extra space that clang-format erroneously added.
                     new_interior = has_include_interior.replace(" / ", "/")
                     to_append = line.replace(has_include_interior, new_interior)
-                    line_index = "第{0}行\n".format(line_index + 1)
-                    self.errorMsg += (
-                                "\033[31m自定义规则format错误：__has_include去除空格\n" + "line: " + line_index + line + '\n' + 'at: ' + file + "\033[0m\n")
+                    # line_index = "第{0}行\n".format(line_index + 1)
+                    # self.errorMsg += (
+                    #             "\033[31m自定义规则format错误：__has_include去除空格\n" + "line: " + line_index + line + '\n' + 'at: ' + file + "\033[0m\n")
 
             lines_to_write.append(to_append)
-        print(self.errorMsg)
+        # print(self.errorMsg)
         return "".join(lines_to_write)
 
 if __name__ == "__main__":

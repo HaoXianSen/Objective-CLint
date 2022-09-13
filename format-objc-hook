@@ -27,24 +27,32 @@ fi
  
 function format_objc() {
   success=0
+  difference=""
   for file in $objc_files; do
-    "$DIR"/format-objc-file-dry-run.sh "$file"
-     check_file=$?
-    echo "${check_file}"
     
-     diffrence=$(diff -q "$file" "$check_file" | wc -l)
-     if [ "$diffrence" -gt 0 ]; then
-         success=1
-     fi
+    #  check_file=$("$DIR"/format-objc-file-dry-run.sh "$file")
+    #  origin_file=$(cat "$file")
+#    "$DIR"/format-objc-file-dry-run.sh "$file"
+      chmod +x "$DIR"/format-diff-result.sh
+      difference="$difference"$("$DIR"/format-objc-file-dry-run.sh "$file" | diff -u "$file" -)
+#     diffrence=$(wc -l)
+#     if [ "$diffrence" -gt 0 ]; then
+#         success=1
+#     fi
   done
-   if [ $success -gt 0 ]; then
-     echo -e "\033[34m 请修复以上格式问题，之后再次commit...\033[0m"
-   else
-     echo -e "\033[34m 恭喜您，Objective-c 没有发现问题🍺🍺🍺\033[0m"
-   fi
+
+  if [ -z "${difference}" ]; then
+      echo -e "\033[34m 恭喜您，代码写的很好哦 没有发现Objective-c格式问题👍🏻👍🏻👍🏻\033[0m"
+      success=0
+  else
+      mkdir "temp/"
+      echo "$difference" | "$DIR"/format-diff-result.sh > temp/difference.html
+      open temp/difference.html
+      echo -e "\033[34m 请修复html中问题，之后再次commit...😭😭😭\033[0m"
+      success=1
+  fi
   return $success
 }
 
 format_objc
-result=$?
-exit $result
+exit $success

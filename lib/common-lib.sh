@@ -28,11 +28,11 @@ function objc_files_to_format() {
 	# optional_base_sha="$1"
 	directories_to_check
 	# optional_base_sha is intentionally unescaped so that it will not appear as empty quotes.
-	# files=$(git diff --cached --name-only | grep -e '\.m$' -e '\.mm$' -e '\.h$' -e '\.hh$')
+	 files=$(git diff --cached --name-only | grep -e '\.m$' -e '\.mm$' -e '\.h$' -e '\.hh$')
 	# filter all .h .m .mm file
-	allArgs=("$@")
-	allFiles=$(IFS=$'\n'; echo "${allArgs[*]}")
-	files=$(echo "$allFiles" | grep -e '\.m$' -e '\.mm$' -e '\.h$' -e '\.hh$')
+#	allArgs=("$@")
+#	allFiles=$(IFS=$'\n'; echo "${allArgs[*]}")
+#	files=$(echo "$allFiles" | grep -e '\.m$' -e '\.mm$' -e '\.h$' -e '\.hh$')
 	directories_to_ignore
 	echo "$files" | grep -v 'Pods/' | grep -v 'Carthage/' >&1
 }

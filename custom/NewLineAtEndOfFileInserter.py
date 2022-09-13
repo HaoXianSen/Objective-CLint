@@ -12,8 +12,8 @@ class NewLineAtEndOfFileInserter(AbstractCustomFormatter):
         if len(lines) > 0 and not lines[-1].endswith("\n"):
             lines[-1] += "\n"
             line_index = "第{0}行\n".format(lines.count)
-            self.errorMsg += (
-                    "\033[31m自定义规则format错误：文件最后需要换行\n" + "line: " + line_index + lines[-1] + '\n' + 'at: ' + file + "\033[0m\n")
+            # self.errorMsg += (
+                    # "\033[31m自定义规则format错误：文件最后需要换行\n" + "line: " + line_index + lines[-1] + '\n' + 'at: ' + file + "\033[0m\n")
         return "".join(lines)
 
 

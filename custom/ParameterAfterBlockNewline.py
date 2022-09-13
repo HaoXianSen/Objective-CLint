@@ -1,11 +1,12 @@
 # ParameterAfterBlockNewline.py
 # Puts parameters following a block argument back on the same line instead of REALLY indenting on the next.
-# 参数一行、而非递进
+# block参数一行、而非递进
 # If a filename is specified as a parameter, it will change that file in place.
 # If input is provided through stdin, it will send the result to stdout.
 # Copyright 2016 Square, Inc
 
 from AbstractCustomFormatter import AbstractCustomFormatter
+
 
 class ParameterAfterBlockNewline(AbstractCustomFormatter):
     def format_lines(self, lines, file):
@@ -24,8 +25,8 @@ class ParameterAfterBlockNewline(AbstractCustomFormatter):
             if final_adrift_param or adrift_param:
                 block_param_line = lines_to_write[-1].rstrip()
                 lines_to_write[-1] = block_param_line + " " + line.lstrip()
-                line_index = "第{0}行\n".format(line_index)
-                self.errorMsg += ("\033[31m自定义规则format错误：参数一行、而非递进\n" + "line: " + line_index + line + '\n' + 'at: ' + file + "\033[0m\n")
+                # line_index = "第{0}行\n".format(line_index)
+                # self.errorMsg += ("\033[31m自定义规则format错误：参数一行、而非递进\n" + "line: " + line_index + line + '\n' + 'at: ' + file + "\033[0m\n")
                 continue
 
             # Match "}," exactly, 
