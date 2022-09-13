@@ -7,9 +7,11 @@
 
 #import "ViewController.h"
 
+
 @interface ViewController ()
 
 @end
+
 
 @implementation ViewController
 
@@ -18,5 +20,7 @@
     // Do any additional setup after loading the view.
 }
 
+- (void)test {
+}
 
 @end

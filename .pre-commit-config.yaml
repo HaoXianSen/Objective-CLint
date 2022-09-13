@@ -7,4 +7,4 @@ repos:
         entry: format-objc-hook
         language: script
         require_serial: true
-    
+        verbose: true
