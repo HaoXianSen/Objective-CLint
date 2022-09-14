@@ -1,9 +1,10 @@
 fail_fast: false
 repos:
-  - repo: local
+  - repo: https://github.com/HaoXianSen/Objective-CLint.git
+    rev: v0.0.1
     hooks:
-      - id: oc-lint
-        name: oc-format
+      - id: objc-lint
+#        name: oc-format
         entry: format-objc-hook
         language: script
         require_serial: true
