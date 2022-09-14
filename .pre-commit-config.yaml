@@ -4,7 +4,7 @@ repos:
     rev: v0.0.1
     hooks:
       - id: objc-lint
-#        name: oc-format
+        name: objc-format
         entry: format-objc-hook
         language: script
         require_serial: true

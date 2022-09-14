@@ -38,7 +38,7 @@
 
 - (void)print;
 
-- (void)print:(void (^)(NSObject *obj1))block;
+- (void)print:(void(^)(NSObject *obj1))block;
 
 @end
 
