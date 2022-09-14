@@ -16,17 +16,26 @@ pre       { white-space: pre-wrap;             }
 </style>
 <body>
 <pre>
-<span class="comment"><span class="minus3">--- Demo/Demo/ViewController.m	2022-09-14 14:16:25.000000000 +0800</span>
-<span class="plus3">+++ -	2022-09-14 14:16:29.000000000 +0800</span>
+<span class="comment"><span class="minus3">--- Demo/Demo/AppDelegate.m	2022-09-14 14:17:47.000000000 +0800</span>
+<span class="plus3">+++ -	2022-09-14 14:18:24.000000000 +0800</span>
 <span class="at2">@@ -15,7 +15,7 @@</span>
  
- @implementation ViewController
+ @implementation AppDelegate
  
-<span class="minus">-- (void)viewDidLoad{</span>
-<span class="plus">+- (void)viewDidLoad {</span>
-     [super viewDidLoad];
-     // Do any additional setup after loading the view.
- }</span>
+<span class="minus">-- (BOOL)application:(UIApplication *)application didFinishLaunchingWithOptions:(NSDictionary *)launchOptions{</span>
+<span class="plus">+- (BOOL)application:(UIApplication *)application didFinishLaunchingWithOptions:(NSDictionary *)launchOptions {</span>
+     // Override point for customization after application launch.
+     @[
+         @{
+<span class="at2">@@ -38,7 +38,7 @@</span>
+ 
+ - (void)print;
+ 
+<span class="minus">-- (void)print:(void(^)(NSObject *obj1))block;</span>
+<span class="plus">+- (void)print:(void (^)(NSObject *obj1))block;</span>
+ 
+ @end
+ </span>
 </pre>
 </body>
 </html>
