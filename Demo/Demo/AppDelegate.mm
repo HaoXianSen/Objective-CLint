@@ -15,7 +15,7 @@
 
 @implementation AppDelegate
 
-- (BOOL)application:(UIApplication *)application didFinishLaunchingWithOptions:(NSDictionary *)launchOptions{
+- (BOOL)application:(UIApplication *)application didFinishLaunchingWithOptions:(NSDictionary *)launchOptions {
     // Override point for customization after application launch.
     @[
         @{
@@ -38,7 +38,7 @@
 
 - (void)print;
 
-- (void)print:(void(^)(NSObject *obj1))block;
+- (void)print:(void (^)(NSObject *obj1))block;
 
 @end
 
