@@ -36,7 +36,7 @@ OK，解决方法之一就是我们之间使用Clang-format，我们知道其实
    fail_fast: false
    repos:
      - repo: https://github.com/HaoXianSen/Objective-CLint.git
-       rev: v0.0.2
+       rev: v0.0.3
        hooks:
          - id: objc-lint
            name: objc-format
