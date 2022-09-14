@@ -27,7 +27,7 @@
     return YES;
 }
 
-- (void)printA:(void (^)(NSObject *obj1))block obj:(NSObject *)obj2 {
+- (void)printA:(void (^)(NSObject *obj1))block obj:(NSObject *)obj2{
     block([NSObject new]);
 }
 
