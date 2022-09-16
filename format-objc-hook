@@ -11,7 +11,8 @@ DIR=$(cd "$(dirname "${BASH_SOURCE[0]}")" && pwd)
 source "$DIR"/lib/common-lib.sh
 
 # Don't do anything unless a .clang-format file exists
-# ln -sf "$DIR/.clang-format" ".clang-format"
+# 复制快照到工作目录下，因为clang-format无法支持指定目录的
+ln -sf "$DIR/.clang-format" ".clang-format"
 if [ ! -f ".clang-format" ]; then
   echo 'lost .clang-format file'
   exit 1
@@ -20,37 +21,46 @@ fi
 objc_files=$(objc_files_to_format "$@")
 
 # if not have check files quit process
-if [ -z "$objc_files" ]; then 
-#  echo 'not find can check object-c files'
- exit 0
+if [ -z "$objc_files" ]; then
+  #  echo 'not find can check object-c files'
+  exit 0
 fi
- 
+
 function format_objc() {
   success=0
   difference=""
   for file in $objc_files; do
-    
+
     #  check_file=$("$DIR"/format-objc-file-dry-run.sh "$file")
     #  origin_file=$(cat "$file")
-#    "$DIR"/format-objc-file-dry-run.sh "$file"
-      chmod +x "$DIR"/format-diff-result.sh
-      difference="$difference"$("$DIR"/format-objc-file-dry-run.sh "$file" | diff -u "$file" -)
-#     diffrence=$(wc -l)
-#     if [ "$diffrence" -gt 0 ]; then
-#         success=1
-#     fi
+    #    "$DIR"/format-objc-file-dry-run.sh "$file"
+    chmod +x "$DIR"/format-diff-result.sh
+    difference="$difference"$("$DIR"/format-objc-file-dry-run.sh "$file" | diff -u "$file" -)
+    #     diffrence=$(wc -l)
+    #     if [ "$diffrence" -gt 0 ]; then
+    #         success=1
+    #     fi
   done
 
   if [ -z "${difference}" ]; then
-      echo -e "\033[34m 恭喜您，代码写的很好哦 没有发现Objective-c格式问题👍🏻👍🏻👍🏻\033[0m"
-      success=0
+    echo -e "\033[34m 恭喜您，代码写的很好哦 没有发现Objective-c格式问题👍🏻👍🏻👍🏻\033[0m"
+    success=0
   else
+    if ! [ -d "$DIR/temp/" ]; then
       mkdir "$DIR/temp/"
-      echo "$difference" | "$DIR"/format-diff-result.sh > "$DIR"/temp/difference.html
-      open "$DIR"/temp/difference.html
-      echo -e "\033[34m 请修复html中问题，之后再次commit...😭😭😭\033[0m"
-      success=1
+    fi
+
+    echo "$difference" | "$DIR"/format-diff-result.sh >"$DIR"/temp/difference.html
+    open "$DIR"/temp/difference.html
+    echo -e "\033[34m 请修复html中问题，之后再次commit...😭😭😭\033[0m"
+    success=1
   fi
+
+  # 移除.clang-format 链接
+  if [ -f ".clang-format" ]; then
+    rm ".clang-format"
+  fi
+
   return $success
 }
 
