@@ -32,16 +32,8 @@ function format_objc() {
   success=0
   difference=""
   for file in $objc_files; do
-
-    #  check_file=$("$DIR"/format-objc-file-dry-run.sh "$file")
-    #  origin_file=$(cat "$file")
-    #    "$DIR"/format-objc-file-dry-run.sh "$file"
     chmod +x "$DIR"/format-diff-result.sh
     difference="$difference"$("$DIR"/format-objc-file-dry-run.sh "$file" | diff -u "$file" -)
-    #     diffrence=$(wc -l)
-    #     if [ "$diffrence" -gt 0 ]; then
-    #         success=1
-    #     fi
   done
 
   if [ -z "${difference}" ]; then
@@ -59,9 +51,9 @@ function format_objc() {
   fi
 
   # 移除.clang-format 链接
-  if [ -f ".clang-format" ]  &&  [ -L ".clang-format" ]; then
-    rm ".clang-format"
-  fi
+  #  if [ -f ".clang-format" ]  &&  [ -L ".clang-format" ]; then
+  #    rm ".clang-format"
+  #  fi
 
   return $success
 }
