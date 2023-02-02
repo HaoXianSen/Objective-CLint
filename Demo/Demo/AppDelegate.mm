@@ -19,7 +19,7 @@
 // Override point for customization after application launch.
 //    @[
 //        @{
-    //            @"a" : @"a"
+//            @"a" : @"a"
     //        },
     //        @{@"b" : @"b"}
     //    ];
