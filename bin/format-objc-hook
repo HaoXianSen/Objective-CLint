@@ -8,7 +8,6 @@
 IFS=$'\n'
 export CDPATH=""
 DIR=$(cd "$(dirname "${BASH_SOURCE[0]}")" && pwd)
-source "$DIR"/lib/common-lib.sh
 
 # Don't do anything unless a .clang-format file exists
 if [ ! -f ".clang-format" ]; then

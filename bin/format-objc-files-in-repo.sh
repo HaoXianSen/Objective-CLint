@@ -10,7 +10,6 @@ start_date=$(date +"%s")
 
 export CDPATH=""
 DIR=$( cd "$( dirname "${BASH_SOURCE[0]}" )" && pwd )
-source "$DIR"/lib/common-lib.sh
 
 objc_files=$(all_valid_objc_files_in_repo)
 [ -z "$objc_files" ] && exit 0

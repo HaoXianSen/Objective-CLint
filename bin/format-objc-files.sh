@@ -11,7 +11,6 @@
 IFS=$'\n'
 export CDPATH=""
 DIR=$( cd "$( dirname "${BASH_SOURCE[0]}" )" && pwd )
-source "$DIR"/lib/common-lib.sh
 
 stage_flag=0
 optional_base_sha=$2

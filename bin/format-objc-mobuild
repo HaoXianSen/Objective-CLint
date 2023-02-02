@@ -13,8 +13,6 @@ DIR=$(cd "$(dirname "${BASH_SOURCE[0]}")" && pwd)
 # It would be better to search for this location, but it's made more difficult since this could be located as a sibling dependency for some repos.
 RELATIVE_SCRIPTS_DIR="Pods/spacecommander"
 
-source "$DIR"/lib/common-lib.sh
-
 objc_files=$(objc_files_to_format "$1")
 [ -z "$objc_files" ] && exit 0
 
