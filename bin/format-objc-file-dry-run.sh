@@ -7,4 +7,6 @@
 
 DIR=$(cd "$(dirname "${BASH_SOURCE[0]}")" && pwd)
 
+echo "${@}"
+echo "0000"
 exec "$DIR"/format-objc-file.sh --dry-run "${@}"
