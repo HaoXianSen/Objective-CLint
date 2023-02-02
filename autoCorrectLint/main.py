@@ -52,6 +52,7 @@ def autoLintObjctiveC(path):
     os.chdir(os.path.abspath(os.path.pardir))
     if not os.path.exists(path):
         raise Exception(f"{path} 不存在")
+
     parentPath = os.path.abspath(os.path.curdir)
     data = subprocess.getoutput("git diff --cached --name-only | grep -e '\.m$' -e '\.mm$' -e '\.h$' -e '\.hh$'")
     if len(data) <= 0:
@@ -64,7 +65,7 @@ def autoLintObjctiveC(path):
     data_list = list(all_modified_paths)
     cmd_path = f"{path}/format-objc-file.sh"
     for git_paths in data_list:
-        result = os.system(f"cd .. | sh {cmd_path} {git_paths}")
+        result = os.system(f"sh {cmd_path} {git_paths}")
         if result == 0:
             print(f"{git_paths} 成功")
         else:

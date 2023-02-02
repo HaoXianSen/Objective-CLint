@@ -17,7 +17,10 @@
 
 - (void)viewDidLoad {
     [super viewDidLoad];
-
+    NSMutableDictionary *dict = [NSMutableDictionary dictionary];
+    [dict setValue:@"1234" forKey:@"test"];
+    [dict setValue:nil forKey:nil];
+    NSLog(@"%@", dict);
 
     // Do any additional setup after loading the view.
 }

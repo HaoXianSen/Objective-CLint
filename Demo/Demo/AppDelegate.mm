@@ -17,15 +17,15 @@
 
 - (BOOL)application:(UIApplication *)application didFinishLaunchingWithOptions:(NSDictionary *)launchOptions {
     // Override point for customization after application launch.
-    @[
-        @{
-            @"a" : @"a"
-        },
-        @{@"b" : @"b"}
-    ];
-    @{@"a" : @"a", @"b" : @"b"};
+    //    @[
+    //        @{
+    //            @"a" : @"a"
+    //        },
+    //        @{@"b" : @"b"}
+    //    ];
+    //    @{@"a" : @"a", @"b" : @"b"};
     return YES;
-    [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(loginSuccess:) name:NSNotification.UserLoginSuccessNotificationName object:nil];
+    //    [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(loginSuccess:) name:NSNotification.UserLoginSuccessNotificationName object:nil];
 }
 
 - (void)printA:(void (^)(NSObject *obj1))block obj:(NSObject *)obj2 {
