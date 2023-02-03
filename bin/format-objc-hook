@@ -91,6 +91,7 @@ function format_objc() {
     echo "$difference" | "$DIR"/format-diff-result.sh > "$DIR"/temp/difference.html
     open "$DIR"/temp/difference.html
     echo -e "\033[31m❌ 已自动打开diff html，请修复html中问题，之后再次commit...😭😭😭\033[0m"
+    rm -f "$DIR"/temp/difference.html
     success=1
   fi
 
