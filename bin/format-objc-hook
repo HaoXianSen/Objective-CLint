@@ -8,6 +8,40 @@
 IFS=$'\n'
 export CDPATH=""
 DIR=$(cd "$(dirname "${BASH_SOURCE[0]}")" && pwd)
+# shellcheck source=/dev/null
+source "$DIR"/common-lib.sh
+FILE=""
+
+function help() {
+	echo "$0 - formats an objc file"
+	echo " "
+	echo "$0 [options] file"
+	echo " "
+	echo "options:"
+	echo "-h, --help     show brief help"
+	echo "-d, --dry-run  output formatted file to STDOUT, instead of modifying it"
+}
+
+while test $# -gt 0; do
+	case "$1" in
+	-h | --help)
+		help
+		exit 0
+		;;
+	-d | --dry-run)
+		shift
+		;;
+	*)
+		if [ -n "$FILE" ]; then
+			echo "May only provide a single file"
+			help
+			exit 1
+		fi
+		FILE="$1"
+		shift
+		;;
+	esac
+done
 
 # Don't do anything unless a .clang-format file exists
 if [ ! -f ".clang-format" ]; then
@@ -19,20 +53,31 @@ if [ ! -f ".clang-format" ]; then
   fi
 fi
 
-objc_files=$(objc_files_to_format "${@}")
-
-# if not have check files quit process
-if [ -z "$objc_files" ]; then
-  #  echo 'not find can check object-c files'
-  exit 0
+# single file format
+if [ -n "$FILE" ]; then
+  "$DIR"/format-objc-file-dry-run.sh "$FILE"
+   exit 0
 fi
 
+# all git cache file format
 function format_objc() {
+
+  objc_files=$(objc_files_to_format)
+
+  # if not have check files quit process
+  if [ -z "$objc_files" ]; then
+    echo 'not find can check object-c files'
+    exit 0
+  fi
+
+  chmod +x "$DIR"/format-diff-result.sh
+
   success=0
   difference=""
   for file in $objc_files; do
-    chmod +x "$DIR"/format-diff-result.sh
-    difference="$difference"$("$DIR"/format-objc-file-dry-run.sh "$file" | diff -u "$file" -)
+    # "$DIR"/format-objc-file-dry-run.sh "$file" "$@"
+    single_difference=$("$DIR"/format-objc-file-dry-run.sh "$file" | diff -u "$file" -)
+    difference=$difference$single_difference
   done
 
   if [ -z "${difference}" ]; then
@@ -43,8 +88,8 @@ function format_objc() {
       mkdir "$DIR/temp/"
     fi
 
-    echo "$difference" | "$DIR"/format-diff-result.sh >"$DIR"/temp/difference.html
-    # open "$DIR"/temp/difference.html
+    echo "$difference" | "$DIR"/format-diff-result.sh > "$DIR"/temp/difference.html
+    open "$DIR"/temp/difference.html
     echo -e "\033[34m 请修复html中问题，之后再次commit...😭😭😭\033[0m"
     success=1
   fi

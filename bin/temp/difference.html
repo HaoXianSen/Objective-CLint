@@ -1,0 +1,42 @@
+<html>
+<head>
+<title>Objective-C Formats Error</title>
+</head>
+<style>
+.diffdiv  { border: solid 1px black;           }
+.comment  { color: gray;                       }
+.diff     { color: #8A2BE2;                    }
+.minus3   { color: blue;                       }
+.plus3    { color: maroon;                     }
+.at2      { color: lime;                       }
+.plus     { color: green; background: #E7E7E7; }
+.minus    { color: red;   background: #D7D7D7; }
+.only     { color: purple;                     }
+pre       { white-space: pre-wrap;             }
+</style>
+<body>
+<pre>
+<span class="comment"><span class="minus3">--- Demo/Demo/AppDelegate.mm	2023-02-02 20:35:36.000000000 +0800</span>
+<span class="plus3">+++ -	2023-02-03 15:22:24.000000000 +0800</span>
+<span class="at2">@@ -16,12 +16,12 @@</span>
+ @implementation AppDelegate
+ 
+ - (BOOL)application:(UIApplication *)application didFinishLaunchingWithOptions:(NSDictionary *)launchOptions {
+<span class="minus">-// Override point for customization after application launch.</span>
+<span class="minus">-//    @[</span>
+<span class="minus">-//        @{</span>
+<span class="minus">-//            @"a" : @"a"</span>
+<span class="minus">-//        },</span>
+<span class="minus">-//        @{@"b" : @"b"}</span>
+<span class="plus">+    // Override point for customization after application launch.</span>
+<span class="plus">+    //    @[</span>
+<span class="plus">+    //        @{</span>
+<span class="plus">+    //            @"a" : @"a"</span>
+<span class="plus">+    //        },</span>
+<span class="plus">+    //        @{@"b" : @"b"}</span>
+     //    ];
+     //    @{@"a" : @"a", @"b" : @"b"};
+     return YES;</span>
+</pre>
+</body>
+</html>
