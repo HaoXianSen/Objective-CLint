@@ -1,0 +1,39 @@
+<html>
+<head>
+<title>Objective-C Formats Error</title>
+</head>
+<style>
+.diffdiv  { border: solid 1px black;           }
+.comment  { color: gray;                       }
+.diff     { color: #8A2BE2;                    }
+.minus3   { color: blue;                       }
+.plus3    { color: maroon;                     }
+.at2      { color: lime;                       }
+.plus     { color: green; background: #E7E7E7; }
+.minus    { color: red;   background: #D7D7D7; }
+.only     { color: purple;                     }
+pre       { white-space: pre-wrap;             }
+</style>
+<body>
+<pre>
+<span class="comment"><span class="minus3">--- Demo/Demo/AppDelegate.mm	2023-02-03 19:50:48.000000000 +0800</span>
+<span class="plus3">+++ -	2023-02-03 19:50:58.000000000 +0800</span>
+<span class="at2">@@ -16,13 +16,13 @@</span>
+ @implementation AppDelegate
+ 
+ - (BOOL)application:(UIApplication *)application didFinishLaunchingWithOptions:(NSDictionary *)launchOptions {
+<span class="minus">-// Override point for customization after application launch.</span>
+<span class="plus">+    // Override point for customization after application launch.</span>
+     //    @[
+     //        @{
+     //            @"a" : @"a"
+     //        },
+     //        @{@"b" : @"b"}
+<span class="minus">-//    ];</span>
+<span class="plus">+    //    ];</span>
+     //    @{@"a" : @"a", @"b" : @"b"};
+     return YES;
+     //    [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(loginSuccess:) name:NSNotification.UserLoginSuccessNotificationName object:nil];</span>
+</pre>
+</body>
+</html>

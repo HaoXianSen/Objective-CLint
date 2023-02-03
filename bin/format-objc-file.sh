@@ -73,7 +73,7 @@ function format_objc_file_dry_run() {
 	 (/usr/bin/python3 "$DIR"/../include/InlineConstructorOnSingleLine.py "$1") |
 	 (/usr/bin/python3 "$DIR"/../include/MacroSemicolonAppender.py "$1") |
 	 (/usr/bin/python3 "$DIR"/../include/DoubleNewlineInserter.py "$1") |
-	(clang-format-12.0.0-244022a3cd75b51dcf1d2a5a822419492ce79e47 -style=file) |
+	("$DIR"/clang-format-12.0.0-244022a3cd75b51dcf1d2a5a822419492ce79e47 -style=file) |
 	# 泛型取消多余的缩进
 	(/usr/bin/python3 "$DIR"/../include/GenericCategoryLinebreakIndentation.py "$1") |
 	(/usr/bin/python3 "$DIR"/../include/ParameterAfterBlockNewline.py "$1") |

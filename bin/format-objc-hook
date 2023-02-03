@@ -78,20 +78,20 @@ function format_objc() {
     # "$DIR"/format-objc-file-dry-run.sh "$file" "$@"
     single_difference=$("$DIR"/format-objc-file-dry-run.sh "$file" | diff -u "$file" -)
     difference=$difference$single_difference
+    echo "$difference"
   done
 
   if [ -z "${difference}" ]; then
     echo -e "\033[34m✅恭喜您，代码写的很好哦 没有发现Objective-c格式问题👍🏻👍🏻👍🏻\033[0m"
     success=0
   else
-    if ! [ -d "$DIR/temp/" ]; then
-      mkdir "$DIR/temp/"
+    if ! [ -d "$DIR/../temp" ]; then
+      mkdir "$DIR/../temp"
     fi
 
-    echo "$difference" | "$DIR"/format-diff-result.sh > "$DIR"/temp/difference.html
-    open "$DIR"/temp/difference.html
+    echo "$difference" | "$DIR"/format-diff-result.sh > "$DIR"/../temp/difference.html
+    open "$DIR"/../temp/difference.html
     echo -e "\033[31m❌ 已自动打开diff html，请修复html中问题，之后再次commit...😭😭😭\033[0m"
-    rm -f "$DIR"/temp/difference.html
     success=1
   fi
 
