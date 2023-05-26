@@ -66,23 +66,37 @@ function format_objc_file_dry_run() {
 		return
 	fi
 
-#   echo -e "\033[31m 文件$1中存在如下问题：\n \033[0m"
   # clang-format gets confused
+  cpu=$(uname -m)
+ if [[ "${cpu}" == "x86_64" ]]; then
 	(cat "$1") | 
 	 (/usr/bin/python3 "$DIR"/../include/LiteralSymbolSpacer.py "$1") |
 	 (/usr/bin/python3 "$DIR"/../include/InlineConstructorOnSingleLine.py "$1") |
 	 (/usr/bin/python3 "$DIR"/../include/MacroSemicolonAppender.py "$1") |
 	 (/usr/bin/python3 "$DIR"/../include/DoubleNewlineInserter.py "$1") |
-	("$DIR"/clang-format-12.0.0-244022a3cd75b51dcf1d2a5a822419492ce79e47 -style=file) |
+	("$DIR"/clang-format-x86 -style=file ) |
 	# 泛型取消多余的缩进
 	(/usr/bin/python3 "$DIR"/../include/GenericCategoryLinebreakIndentation.py "$1") |
 	(/usr/bin/python3 "$DIR"/../include/ParameterAfterBlockNewline.py "$1") |
 	(/usr/bin/python3 "$DIR"/../include/HasIncludeSpaceRemover.py "$1") |
 	(/usr/bin/python3 "$DIR"/../include/NewLineAtEndOfFileInserter.py "$1")
+ else
+	(cat "$1") | 
+	 (/usr/bin/python3 "$DIR"/../include/LiteralSymbolSpacer.py "$1") |
+	 (/usr/bin/python3 "$DIR"/../include/InlineConstructorOnSingleLine.py "$1") |
+	 (/usr/bin/python3 "$DIR"/../include/MacroSemicolonAppender.py "$1") |
+	 (/usr/bin/python3 "$DIR"/../include/DoubleNewlineInserter.py "$1") |
+	("$DIR"/clang-format-arm64 -style=file) |
+	# 泛型取消多余的缩进
+	(/usr/bin/python3 "$DIR"/../include/GenericCategoryLinebreakIndentation.py "$1") |
+	(/usr/bin/python3 "$DIR"/../include/ParameterAfterBlockNewline.py "$1") |
+	(/usr/bin/python3 "$DIR"/../include/HasIncludeSpaceRemover.py "$1") |
+	(/usr/bin/python3 "$DIR"/../include/NewLineAtEndOfFileInserter.py "$1")
+ fi
+	
 }
 
 function format_objc_file() {
-	printf "1111"
 	tempFile="$(mktemp)"
 	status=0
 	format_objc_file_dry_run "$1" >"$tempFile" || status=$?

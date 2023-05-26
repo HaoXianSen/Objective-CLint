@@ -7,10 +7,14 @@
 
 IFS=$'\n'
 export CDPATH=""
-DIR=$(cd "$(dirname "${BASH_SOURCE[0]}")" && pwd)
+DIR=$(cd "$(dirname "$(readlink -f "${BASH_SOURCE[0]}")")" &> /dev/null && pwd)
 # shellcheck source=/dev/null
 source "$DIR"/common-lib.sh
 FILE=""
+# Reporter types: terminal、html、open_html
+Reporter="terminal"
+Output_Path=""
+Quiet=0
 
 function help() {
 	echo "$0 - formats an objc file"
@@ -20,6 +24,10 @@ function help() {
 	echo "options:"
 	echo "-h, --help     show brief help"
 	echo "-d, --dry-run  output formatted file to STDOUT, instead of modifying it"
+  echo "--reporter reporter type contained terminal、html、open_html"
+  echo '--output output path'
+  echo "--quiet, quiet excute, not output any info"
+ 
 }
 
 while test $# -gt 0; do
@@ -31,7 +39,21 @@ while test $# -gt 0; do
 	-d | --dry-run)
 		shift
 		;;
-	*)
+	--reporter)
+    Reporter="$2"
+    shift 2
+    continue
+    ;;
+  --output)
+    Output_Path="$2"
+    shift 2
+    continue
+    ;;
+  --quiet)
+    Quiet=1
+    shift
+    ;;
+  *)
 		if [ -n "$FILE" ]; then
 			echo "May only provide a single file"
 			help
@@ -43,12 +65,26 @@ while test $# -gt 0; do
 	esac
 done
 
+function log() {
+  info="${1}"
+  if (( "${Quiet}" == 0 )); then
+    echo -e "$info"
+  fi
+}
+
+#check Reporter type is legal
+if [ "$Reporter" != "terminal" ] && [ "$Reporter" != "html" ] && [ "$Reporter" != "open_html" ]; then
+  log "--reporter error, suport reporter types: terminal、html、open_html now"
+  exit 1
+fi
+
+
 # Don't do anything unless a .clang-format file exists
 if [ ! -f ".clang-format" ]; then
   # link到工作目录下，因为clang-format无法支持指定目录的
   ln -sf "$DIR/.clang-format" ".clang-format"
   if [ ! -f ".clang-format" ]; then
-      echo 'lost .clang-format file'
+      log 'lost .clang-format file'
       exit 1
   fi
 fi
@@ -66,42 +102,53 @@ function format_objc() {
 
   # if not have check files quit process
   if [ -z "$objc_files" ]; then
-    echo 'not find can check object-c files'
+    log 'not find can check object-c files'
     exit 0
   fi
 
   chmod +x "$DIR"/format-diff-result.sh
 
-  success=0
+  failed=0
   difference=""
   for file in $objc_files; do
-    # "$DIR"/format-objc-file-dry-run.sh "$file" "$@"
-    single_difference=$("$DIR"/format-objc-file-dry-run.sh "$file" | diff -u "$file" -)
-    difference=$difference$single_difference
-    echo "$difference"
+    # diff -u unified context -b Ignore changes in the amount of white space
+    single_difference=$("$DIR"/format-objc-file-dry-run.sh "$file" | diff -u -b "${file}" -)
+    difference="${difference}\n${single_difference}"
   done
 
   if [ -z "${difference}" ]; then
-    echo -e "\033[34m✅恭喜您，代码写的很好哦 没有发现Objective-c格式问题👍🏻👍🏻👍🏻\033[0m"
-    success=0
+    log "\033[34m✅恭喜您，代码写的很好哦 没有发现Objective-c格式问题👍🏻👍🏻👍🏻\033[0m"
+    failed=0
   else
     if ! [ -d "$DIR/../temp" ]; then
       mkdir "$DIR/../temp"
     fi
 
-    echo "$difference" | "$DIR"/format-diff-result.sh > "$DIR"/../temp/difference.html
-    open "$DIR"/../temp/difference.html
-    echo -e "\033[31m❌ 已自动打开diff html，请修复html中问题，之后再次commit...😭😭😭\033[0m"
-    success=1
+    output_path=""
+    if [[ -z "${Output_Path}" ]]; then
+      output_path="$DIR"/../temp/difference.html
+    else {
+      output_path="${Output_Path}"
+    }
+    fi
+   
+    echo "$difference" | "$DIR"/format-diff-result.sh > "${output_path}"
+
+    if [ "$Reporter" == "open_html" ]; then
+        open "${output_path}"
+        log "\033[31m❌ 已自动打开diff html，请修复html中问题，之后再次commit...😭😭😭\033[0m"
+    elif [ "$Reporter" == "html" ]; then
+        cat "${output_path}"
+        log "\033[31m❌ 修复以上问题，之后再次commit...😭😭😭\033[0m"
+    elif [ "$Reporter" == "terminal" ]; then
+        log "$difference"
+        log "\033[31m❌ 修复以上问题，之后再次commit...😭😭😭\033[0m"
+    fi
+    failed=1
   fi
 
-  # 移除.clang-format 链接
-  #  if [ -f ".clang-format" ]  &&  [ -L ".clang-format" ]; then
-  #    rm ".clang-format"
-  #  fi
-
-  return $success
+  return $failed
 }
 
 format_objc
-exit $success
+exit $failed

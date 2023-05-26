@@ -26,7 +26,7 @@ function directories_to_ignore() {
 # Optional parameter: a git SHA. Returns a list of all ObjC files which have changed since that SHA
 function objc_files_to_format() {
 	directories_to_check
-	 files=$(git diff --cached --name-only | grep -e '\.m$' -e '\.mm$' -e '\.h$' -e '\.hh$')
+	files=$(git diff --cached --name-only | grep -e '\.m$' -e '\.mm$' -e '\.h$' -e '\.hh$')
 	directories_to_ignore
 	echo "$files" | grep -v 'Pods/' | grep -v 'Carthage/' >&1
 }
