@@ -68,30 +68,31 @@ function format_objc_file_dry_run() {
 
   # clang-format gets confused
   cpu=$(uname -m)
+  python3=$(which python3)
  if [[ "${cpu}" == "x86_64" ]]; then
 	(cat "$1") | 
-	 (/usr/bin/python3 "$DIR"/../include/LiteralSymbolSpacer.py "$1") |
-	 (/usr/bin/python3 "$DIR"/../include/InlineConstructorOnSingleLine.py "$1") |
-	 (/usr/bin/python3 "$DIR"/../include/MacroSemicolonAppender.py "$1") |
-	 (/usr/bin/python3 "$DIR"/../include/DoubleNewlineInserter.py "$1") |
+	 ($python3 "$DIR"/../include/LiteralSymbolSpacer.py "$1") |
+	 ($python3 "$DIR"/../include/InlineConstructorOnSingleLine.py "$1") |
+	 ($python3 "$DIR"/../include/MacroSemicolonAppender.py "$1") |
+	 ($python3 "$DIR"/../include/DoubleNewlineInserter.py "$1") |
 	("$DIR"/clang-format-x86 -style=file ) |
 	# 泛型取消多余的缩进
-	(/usr/bin/python3 "$DIR"/../include/GenericCategoryLinebreakIndentation.py "$1") |
-	(/usr/bin/python3 "$DIR"/../include/ParameterAfterBlockNewline.py "$1") |
-	(/usr/bin/python3 "$DIR"/../include/HasIncludeSpaceRemover.py "$1") |
-	(/usr/bin/python3 "$DIR"/../include/NewLineAtEndOfFileInserter.py "$1")
+	($python3 "$DIR"/../include/GenericCategoryLinebreakIndentation.py "$1") |
+	($python3 "$DIR"/../include/ParameterAfterBlockNewline.py "$1") |
+	($python3 "$DIR"/../include/HasIncludeSpaceRemover.py "$1") |
+	($python3 "$DIR"/../include/NewLineAtEndOfFileInserter.py "$1")
  else
 	(cat "$1") | 
-	 (/usr/bin/python3 "$DIR"/../include/LiteralSymbolSpacer.py "$1") |
-	 (/usr/bin/python3 "$DIR"/../include/InlineConstructorOnSingleLine.py "$1") |
-	 (/usr/bin/python3 "$DIR"/../include/MacroSemicolonAppender.py "$1") |
-	 (/usr/bin/python3 "$DIR"/../include/DoubleNewlineInserter.py "$1") |
+	 ($python3 "$DIR"/../include/LiteralSymbolSpacer.py "$1") |
+	 ($python3 "$DIR"/../include/InlineConstructorOnSingleLine.py "$1") |
+	 ($python3 "$DIR"/../include/MacroSemicolonAppender.py "$1") |
+	 ($python3 "$DIR"/../include/DoubleNewlineInserter.py "$1") |
 	("$DIR"/clang-format-arm64 -style=file) |
 	# 泛型取消多余的缩进
-	(/usr/bin/python3 "$DIR"/../include/GenericCategoryLinebreakIndentation.py "$1") |
-	(/usr/bin/python3 "$DIR"/../include/ParameterAfterBlockNewline.py "$1") |
-	(/usr/bin/python3 "$DIR"/../include/HasIncludeSpaceRemover.py "$1") |
-	(/usr/bin/python3 "$DIR"/../include/NewLineAtEndOfFileInserter.py "$1")
+	($python3 "$DIR"/../include/GenericCategoryLinebreakIndentation.py "$1") |
+	($python3 "$DIR"/../include/ParameterAfterBlockNewline.py "$1") |
+	($python3 "$DIR"/../include/HasIncludeSpaceRemover.py "$1") |
+	($python3 "$DIR"/../include/NewLineAtEndOfFileInserter.py "$1")
  fi
 	
 }
