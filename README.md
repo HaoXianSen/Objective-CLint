@@ -62,6 +62,39 @@ OK，解决方法之一就是我们之间使用Clang-format，我们知道其实
 
 
 
+
+----
+
+### 2023年更新
+
+* 增加一些便捷性命令
+
+  * --reporter [<terminal>, <html>, <open_html>]
+
+    增加报告类型，1、terminal 终端直接输出 2、html 终端输出html 3、 直接web打开html
+
+  * --output [<path>]
+
+    增加可配置输出目的地址，如果带有--output 输出会直接输出到指定文件
+
+  * --quiet
+
+    增加静默执行，即增加--quiet之后，全程不输出提示性、错误性的信息
+
+* 美观report html
+
+  * 嵌入开源三方库[diff2html](https://github.com/rtfpessoa/diff2html) 美观report html
+
+  ![image-20230616114432297](https://cdn.jsdelivr.net/gh/HaoXianSen/HaoXianSen.github.io@master/screenshots/20230616114433image-20230616114432297.png)
+
+
+### 2023 年后续迭代
+
+* autocorrect 
+  * 修正、完善aotocorrect功能
+  * autocorrect 支持多文件
+
+
 #### 联系方式
 
 harry_c2016@163.com
