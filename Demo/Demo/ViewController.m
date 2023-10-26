@@ -18,7 +18,8 @@
 - (void)viewDidLoad {
     [super viewDidLoad];
     NSMutableDictionary *dict = [NSMutableDictionary dictionary];
-    [dict setValue:@"1234" forKey:@"test"];
+    [dict setValue:@"1234"
+     forKey:@"test"];
     [dict setValue:@"1234" forKey:@"test1"];
     [dict setValue:nil forKey:nil];
     NSLog(@"%@", dict);
