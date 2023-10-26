@@ -10,16 +10,14 @@ export CDPATH=""
 DIR=$(cd "$(dirname "$(readlink -f "${BASH_SOURCE[0]}")")" &> /dev/null && pwd)
 # shellcheck source=/dev/null
 source "$DIR"/common-lib.sh
-FILE=""
 # Reporter types: terminal、html、open_html
 Reporter="terminal"
 Output_Path=""
 Quiet=0
+file_paths=()
 
 function help() {
-	echo "$0 - formats an objc file"
-	echo " "
-	echo "$0 [options] file"
+	echo "$0 - formats objc files"
 	echo " "
 	echo "options:"
 	echo "-h, --help     show brief help"
@@ -30,14 +28,15 @@ function help() {
  
 }
 
-while test $# -gt 0; do
-	case "$1" in
+while [ $# -gt 0 ]; do
+  case "$1" in
 	-h | --help)
 		help
 		exit 0
 		;;
 	-d | --dry-run)
-		shift
+    shift
+    continue
 		;;
 	--reporter)
     Reporter="$2"
@@ -52,18 +51,15 @@ while test $# -gt 0; do
   --quiet)
     Quiet=1
     shift
+    continue
     ;;
   *)
-		if [ -n "$FILE" ]; then
-			echo "May only provide a single file"
-			help
-			exit 1
-		fi
-		FILE="$1"
-		shift
-		;;
+    file_paths+=("$1")
+    shift
+    ;;
 	esac
 done
+
 
 function log() {
   info="${1}"
@@ -87,12 +83,6 @@ if [ ! -f ".clang-format" ]; then
       log 'lost .clang-format file'
       exit 1
   fi
-fi
-
-# single file format
-if [ -n "$FILE" ]; then
-  "$DIR"/format-objc-file-dry-run.sh "$FILE"
-   exit 0
 fi
 
 # all git cache file format
