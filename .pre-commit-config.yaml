@@ -1,7 +1,7 @@
 fail_fast: false
 repos:
   - repo: https://github.com/HaoXianSen/Objective-CLint.git
-    rev: v0.0.5
+    rev: v1.0.0
     hooks:
       - id: objc-lint
         name: objc-format
