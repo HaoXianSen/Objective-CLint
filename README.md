@@ -47,7 +47,7 @@ OK，解决方法之一就是我们之间使用Clang-format，我们知道其实
    ```
 
    **高阶使用**
- 1. ```
+   ```
    fail_fast: false
    repos:
      - repo: https://github.com/HaoXianSen/Objective-CLint.git
@@ -59,9 +59,10 @@ OK，解决方法之一就是我们之间使用Clang-format，我们知道其实
            language: script
            require_serial: true
            verbose: true
-  #  entry: format-objc-hook 后可添加下面更行的便捷性命令
    ```
-   2. fork 工程，可修改、增加自定义规则，以及.clang 规则
+   entry: format-objc-hook 后可添加下面更行的便捷性命令
+
+   fork 工程，可修改、增加自定义规则，以及.clang 规则
 
 ### 相关截图
 
