@@ -46,6 +46,10 @@ OK，解决方法之一就是我们之间使用Clang-format，我们知道其实
            verbose: true
    ```
 
+   执行```pre-commit install```
+
+   如果需要更新版本则 修改rev版本号，并且执行```pre-commit autoupdate```
+
    **高阶使用**
    ```
    fail_fast: false
@@ -63,6 +67,8 @@ OK，解决方法之一就是我们之间使用Clang-format，我们知道其实
    entry: format-objc-hook 后可添加下面更行的便捷性命令
 
    fork 工程，可修改、增加自定义规则，以及.clang 规则
+
+   **
 
 ### 相关截图
 
