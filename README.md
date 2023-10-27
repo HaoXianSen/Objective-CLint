@@ -36,7 +36,7 @@ OK，解决方法之一就是我们之间使用Clang-format，我们知道其实
    fail_fast: false
    repos:
      - repo: https://github.com/HaoXianSen/Objective-CLint.git
-       rev: v0.0.3
+       rev: v1.0.1
        hooks:
          - id: objc-lint
            name: objc-format
@@ -47,8 +47,21 @@ OK，解决方法之一就是我们之间使用Clang-format，我们知道其实
    ```
 
    **高阶使用**
-
-   fork 工程，可修改、增加自定义规则，以及.clang 规则
+ 1. ```
+   fail_fast: false
+   repos:
+     - repo: https://github.com/HaoXianSen/Objective-CLint.git
+       rev: v1.0.1
+       hooks:
+         - id: objc-lint
+           name: objc-format
+           entry: format-objc-hook --reporter open_html 
+           language: script
+           require_serial: true
+           verbose: true
+  #  entry: format-objc-hook 后可添加下面更行的便捷性命令
+   ```
+   2. fork 工程，可修改、增加自定义规则，以及.clang 规则
 
 ### 相关截图
 
