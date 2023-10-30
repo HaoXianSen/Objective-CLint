@@ -71,6 +71,9 @@ OK，解决方法之一就是我们之间使用Clang-format，我们知道其实
      ```
 
 4. 在根目录下，使用相关命令手动执行。
+   ```shell
+      format-objc-hook --reporter [<terminal>, <html>, <open_html>] --output [<path>] --quiet --auto-fix
+   ```
 
 ### 相关截图
 
@@ -82,23 +85,17 @@ OK，解决方法之一就是我们之间使用Clang-format，我们知道其实
 
 ![image-20220914150033308](https://cdn.jsdelivr.net/gh/HaoXianSen/HaoXianSen.github.io@master/screenshots/20220914150033image-20220914150033308.png)
 
-### 命令
-
---reporter [<terminal>, <html>, <open_html>] # 输出类型
---output [<path>] # 输出html地址
---quiet           # 静默执行
---auto-fix        # 自动修复格式问题
-
-### 使用方式
-
-```shell
-format-objc-hook --reporter [<terminal>, <html>, <open_html>] --output [<path>] --quiet --auto-fix
+### 命令列表
+```
+   -h, --help # 帮助命令
+   -v, --version # 当前版本
+   --reporter [<terminal>, <html>, <open_html>] # 输出类型
+   --output [<path>] # 输出html地址
+   --quiet           # 静默执行
+   --auto-fix        # 自动修复格式问题
 ```
 
-
-
 ----
-
 
 
 ### 2023年更新
