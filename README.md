@@ -1,12 +1,18 @@
+
+
 # Objective-CLint
+
 创建一个轻量级的、支持pre-commit的Objective-C 的静态检查
 
 ### 感谢
+
 感谢 [spacecommander](https://github.com/square/spacecommander)作者提供的Objective-C lint的思路以及open source
 本文大部分是基于 [spacecommander](https://github.com/square/spacecommander)累加的一些新功能。再次感谢开源作者，非常棒👍🏻
 
 ### 架构/构思
+
 #### 1.前因
+
 因为OC-Lint的重量型检查，导致如果使用OCLint 那么首先我们需要安装OCLint 以及 还需要编译工程，如果我们使用[pre-commit](https://pre-commit.com/)那么
 就会导致我们每次 git commit 时间会增加很多，每次 commit可能对于我们来说都是一种煎熬。ok那么就需要我们使用另外的方式解决。
 
@@ -16,9 +22,10 @@ OK，解决方法之一就是我们之间使用Clang-format，我们知道其实
 那么有了伟大的 spacecommander 作为基础，我们就可以利用他做一个pre-commit hook，用来OClint
 
 #### 2.相关实现、改动
+
 1. 在spacecommander 的基础上，实现了支持pre-commit，更方便集成
 2. spacecommander 只是对比了format之后行数，以用来比较是否有不否和规则的代码出现，不够明显，我们采用diff的方式对比了
-  format之前和之后的代码，使得开发者能更清楚，自己哪些地方代码不规范
+   format之前和之后的代码，使得开发者能更清楚，自己哪些地方代码不规范
 3. spacecommander 提供了api 一键format代码，我们不提供此功能，因为我总觉得只有多次的认识到不规范的代码，才能保证下次写出规范的代码
 4. 提供了diff之后可视化输出，打开html，一眼即可看到不规范的代码
 5. 修改了部分自定义规则代码，以适应灵活的代码不规范
@@ -26,49 +33,44 @@ OK，解决方法之一就是我们之间使用Clang-format，我们知道其实
 
 ### 使用
 
-1. 安装 pre-commit , ``` brew install pre-commit ```
+#### 基于Pre-commit 工具
 
-2. 在工程根目录添加(即.git同级目录)添加 [.pre-commit-config.yaml](https://github.com/HaoXianSen/Objective-CLint/blob/main/.pre-commit-config.yaml)
+  1. 安装 pre-commit , ``` brew install pre-commit ```
 
-   并配置为：
+  2. 在工程根目录添加(即.git同级目录)添加 [.pre-commit-config.yaml](https://github.com/HaoXianSen/Objective-CLint/blob/main/.pre-commit-config.yaml)
 
-   ```
-   fail_fast: false
-   repos:
-     - repo: https://github.com/HaoXianSen/Objective-CLint.git
-       rev: v1.0.2
-       hooks:
-         - id: objc-lint
-           name: objc-format
-           entry: format-objc-hook
-           language: script
-           require_serial: true
-           verbose: true
-   ```
+     ```yaml
+     fail_fast: false
+                repos:
+                    - repo: https://github.com/HaoXianSen/Objective-CLint.git
+                        rev: v1.0.2
+                      hooks:
+                         - id: objc-lint
+                         name: objc-format
+                        entry: format-objc-hook
+                      language: script
+            require_serial: true
+            verbose: true
+      # entry: format-objc-hook 后可添加下面更新的便捷性命令, 如 format-objc-hook --reporter open_html --auto--fix
+     ```
 
-   执行```pre-commit install```
+  3. 根目录下放置.clang-format 文件，修改规则（可将此工程下的.clang-format copy 到自己工程根目录下）
 
-   如果需要更新版本则 修改rev版本号，并且执行```pre-commit autoupdate```
+  4. 执行```pre-commit install```
 
-   **高阶使用**
-   ```
-   fail_fast: false
-   repos:
-     - repo: https://github.com/HaoXianSen/Objective-CLint.git
-       rev: v1.0.2
-       hooks:
-         - id: objc-lint
-           name: objc-format
-           entry: format-objc-hook --reporter open_html 
-           language: script
-           require_serial: true
-           verbose: true
-   ```
-   entry: format-objc-hook 后可添加下面更新的便捷性命令
+  4. 如果需要更新版本则 修改rev版本号，并且执行```pre-commit autoupdate```
 
-   fork 工程，可修改、增加自定义规则，以及.clang 规则
+#### homebrew 安装，手动执行
 
-   **
+  1. ```brew tap haoxiansen/private```
+
+  2. ```brew update && brew install objc-lint && brew upgrade objc-lint```
+
+  3. ``` shell
+     format-objc-hook -h
+     ```
+
+4. 在根目录下，使用相关命令手动执行。
 
 ### 相关截图
 
@@ -76,22 +78,28 @@ OK，解决方法之一就是我们之间使用Clang-format，我们知道其实
 
   
 
-![image-20220914145930603](https://cdn.jsdelivr.net/gh/HaoXianSen/HaoXianSen.github.io@master/screenshots/20220914145930image-20220914145930603.png)
+![image-20220914145930603](https://cdn.jsdelivr.net/gh/HaoXianSen/HaoXianSen.github.io@master/screenshots/20220914145930image-20220914145930603.png
 
 ![image-20220914150033308](https://cdn.jsdelivr.net/gh/HaoXianSen/HaoXianSen.github.io@master/screenshots/20220914150033image-20220914150033308.png)
 
-
 ### 命令
-```
+
 --reporter [<terminal>, <html>, <open_html>] # 输出类型
 --output [<path>] # 输出html地址
 --quiet           # 静默执行
 --auto-fix        # 自动修复格式问题
-# 使用方式
+
+### 使用方式
+
+```shell
 format-objc-hook --reporter [<terminal>, <html>, <open_html>] --output [<path>] --quiet --auto-fix
 ```
 
+
+
 ----
+
+
 
 ### 2023年更新
 
@@ -116,8 +124,10 @@ format-objc-hook --reporter [<terminal>, <html>, <open_html>] --output [<path>] 
   ![image-20230616114432297](https://cdn.jsdelivr.net/gh/HaoXianSen/HaoXianSen.github.io@master/screenshots/20230616114433image-20230616114432297.png)
 
 ### 2023.10
+
   * 修复pre-commit 工具不能运行问题
   * 增加--auto-fix 自动修复功能
+
 ### 2023 年后续迭代
 
   * 目录|多文件 非pre-commit支持
