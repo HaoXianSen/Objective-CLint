@@ -81,7 +81,15 @@ OK，解决方法之一就是我们之间使用Clang-format，我们知道其实
 ![image-20220914150033308](https://cdn.jsdelivr.net/gh/HaoXianSen/HaoXianSen.github.io@master/screenshots/20220914150033image-20220914150033308.png)
 
 
-
+### 命令
+```
+--reporter [<terminal>, <html>, <open_html>] # 输出类型
+--output [<path>] # 输出html地址
+--quiet           # 静默执行
+--auto-fix        # 自动修复格式问题
+# 使用方式
+format-objc-hook --reporter [<terminal>, <html>, <open_html>] --output [<path>] --quiet --auto-fix
+```
 
 ----
 
@@ -107,12 +115,12 @@ OK，解决方法之一就是我们之间使用Clang-format，我们知道其实
 
   ![image-20230616114432297](https://cdn.jsdelivr.net/gh/HaoXianSen/HaoXianSen.github.io@master/screenshots/20230616114433image-20230616114432297.png)
 
-
+### 2023.10
+  * 修复pre-commit 工具不能运行问题
+  * 增加--auto-fix 自动修复功能
 ### 2023 年后续迭代
 
-* autocorrect 
-  * 修正、完善aotocorrect功能
-  * autocorrect 支持多文件
+  * 目录|多文件 非pre-commit支持
 
 
 #### 联系方式

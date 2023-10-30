@@ -9,8 +9,8 @@ set -o pipefail
 
 export CDPATH=""
 DIR=$(cd "$(dirname "${BASH_SOURCE[0]}")" && pwd)
-DRY_RUN=0
 FILE=""
+AUTO_FIX=0
 
 function help() {
 	echo "$0 - formats an objc file"
@@ -19,7 +19,7 @@ function help() {
 	echo " "
 	echo "options:"
 	echo "-h, --help     show brief help"
-	echo "-d, --dry-run  output formatted file to STDOUT, instead of modifying it"
+	echo "--auto-fix, auto fix format errors"
 }
 
 while test $# -gt 0; do
@@ -28,8 +28,8 @@ while test $# -gt 0; do
 		help
 		exit 0
 		;;
-	-d | --dry-run)
-		DRY_RUN=1
+	--auto-fix)
+		AUTO_FIX=1
 		shift
 		;;
 	*)
@@ -97,7 +97,7 @@ function format_objc_file_dry_run() {
 	
 }
 
-function format_objc_file() {
+function auto_format_objc_file() {
 	tempFile="$(mktemp)"
 	status=0
 	format_objc_file_dry_run "$1" >"$tempFile" || status=$?
@@ -109,8 +109,8 @@ function format_objc_file() {
 	fi
 }
 
-if [ $DRY_RUN -eq 0 ]; then
-	format_objc_file "$FILE"
+if [ $AUTO_FIX -eq 1 ]; then
+	auto_format_objc_file "$FILE"
 else
 	format_objc_file_dry_run "$FILE"
 fi
