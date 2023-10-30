@@ -6,6 +6,7 @@ repos:
       - id: objc-lint
         name: objc-format
         entry: bin/format-objc-hook --reporter open_html
+        # entery: bin/format-objc-hook --auto-fix
         language: script
         require_serial: true
         verbose: true

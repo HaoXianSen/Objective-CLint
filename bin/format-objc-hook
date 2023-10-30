@@ -7,38 +7,36 @@
 
 IFS=$'\n'
 export CDPATH=""
-DIR=$(cd "$(dirname "$(readlink -f "${BASH_SOURCE[0]}")")" &> /dev/null && pwd)
+DIR=$(cd "$(dirname "$(readlink -f "${BASH_SOURCE[0]}")")" &>/dev/null && pwd)
 # shellcheck source=/dev/null
 source "$DIR"/common-lib.sh
 # Reporter types: terminal、html、open_html
 Reporter="terminal"
 Output_Path=""
 Quiet=0
+auto_fix=0
 file_paths=()
 
 function help() {
-	echo "$0 - formats objc files"
-	echo " "
-	echo "options:"
-	echo "-h, --help     show brief help"
-	echo "-d, --dry-run  output formatted file to STDOUT, instead of modifying it"
+  echo "$0 - formats objc files"
+  echo ""#pragma Formatter Exempt" or "// MARK: Formatter Exempt" means don't format this file."
+  echo " "
+  echo "options:"
+  echo "-h, --help     show brief help"
   echo "--reporter reporter type contained terminal、html、open_html"
   echo '--output output path'
   echo "--quiet, quiet excute, not output any info"
- 
+  echo "--auto-fix, auto fix format errors"
+
 }
 
 while [ $# -gt 0 ]; do
   case "$1" in
-	-h | --help)
-		help
-		exit 0
-		;;
-	-d | --dry-run)
-    shift
-    continue
-		;;
-	--reporter)
+  -h | --help)
+    help
+    exit 0
+    ;;
+  --reporter)
     Reporter="$2"
     shift 2
     continue
@@ -53,17 +51,21 @@ while [ $# -gt 0 ]; do
     shift
     continue
     ;;
+  --auto-fix)
+    auto_fix=1
+    shift
+    continue
+    ;;
   *)
     file_paths+=("$1")
     shift
     ;;
-	esac
+  esac
 done
-
 
 function log() {
   info="${1}"
-  if (( "${Quiet}" == 0 )); then
+  if (("${Quiet}" == 0)); then
     echo -e "$info"
   fi
 }
@@ -74,14 +76,13 @@ if [ "$Reporter" != "terminal" ] && [ "$Reporter" != "html" ] && [ "$Reporter" !
   exit 1
 fi
 
-
 # Don't do anything unless a .clang-format file exists
 if [ ! -f ".clang-format" ]; then
   # link到工作目录下，因为clang-format无法支持指定目录的
   ln -sf "$DIR/.clang-format" ".clang-format"
   if [ ! -f ".clang-format" ]; then
-      log 'lost .clang-format file'
-      exit 1
+    log 'lost .clang-format file'
+    exit 1
   fi
 fi
 
@@ -102,14 +103,22 @@ function format_objc() {
   difference=""
   for file in $objc_files; do
     # diff -u unified context -b Ignore changes in the amount of white space
-    single_difference=$("$DIR"/format-objc-file-dry-run.sh "$file" | diff -u -b "${file}" -)
-    if [[ -n "${single_difference}" ]]; then
+    if (("${auto_fix}" == 1)); then
+      "$DIR"/format-objc-file.sh --auto-fix "$file"
+    else
+      single_difference=$("$DIR"/format-objc-file.sh "$file" | diff -u -b "${file}" -)
+      if [[ -n "${single_difference}" ]]; then
         difference="${difference}\n${single_difference}"
+      fi
     fi
   done
 
   if [ -z "${difference}" ]; then
-    log "\033[34m✅恭喜您，代码写的很好哦 没有发现Objective-c格式问题👍🏻👍🏻👍🏻\033[0m"
+    if (("$auto_fix" == 1)); then
+      log "\033[34m✅已为您自动修复Objective-c格式问题\033[0m"
+    else
+      log "\033[34m✅恭喜您，代码写的很好哦 没有发现Objective-c格式问题👍🏻👍🏻👍🏻\033[0m"
+    fi
     failed=0
   else
     if ! [ -d "$DIR/../temp" ]; then
@@ -119,22 +128,23 @@ function format_objc() {
     output_path=""
     if [[ -z "${Output_Path}" ]]; then
       output_path="$DIR"/../temp/difference.html
-    else {
-      output_path="${Output_Path}"
-    }
+    else
+      {
+        output_path="${Output_Path}"
+      }
     fi
-   
-    echo "$difference" | "$DIR"/format-diff-result.sh > "${output_path}"
+
+    echo "$difference" | "$DIR"/format-diff-result.sh >"${output_path}"
 
     if [ "$Reporter" == "open_html" ]; then
-        open "${output_path}"
-        log "\033[31m❌ 已自动打开diff html，请修复html中问题，之后再次commit...😭😭😭\033[0m"
+      open "${output_path}"
+      log "\033[31m❌ 已自动打开diff html，请修复html中问题，之后再次commit...😭😭😭\033[0m"
     elif [ "$Reporter" == "html" ]; then
-        cat "${output_path}"
-        log "\033[31m❌ 修复以上问题，之后再次commit...😭😭😭\033[0m"
+      cat "${output_path}"
+      log "\033[31m❌ 修复以上问题，之后再次commit...😭😭😭\033[0m"
     elif [ "$Reporter" == "terminal" ]; then
-        log "$difference"
-        log "\033[31m❌ 修复以上问题，之后再次commit...😭😭😭\033[0m"
+      log "$difference"
+      log "\033[31m❌ 修复以上问题，之后再次commit...😭😭😭\033[0m"
     fi
     failed=1
   fi
