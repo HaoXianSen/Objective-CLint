@@ -10,6 +10,7 @@ export CDPATH=""
 DIR=$(cd "$(dirname "$(readlink -f "${BASH_SOURCE[0]}")")" &>/dev/null && pwd)
 # shellcheck source=/dev/null
 source "$DIR"/common-lib.sh
+source "$DIR"/VERSION.sh
 # Reporter types: terminal、html、open_html
 Reporter="terminal"
 Output_Path=""
@@ -19,6 +20,8 @@ file_paths=()
 
 function help() {
   echo "$0 - formats objc files"
+  echo "Latest version: $VERSION"
+  echo " "
   echo ""#pragma Formatter Exempt" or "// MARK: Formatter Exempt" means don't format this file."
   echo " "
   echo "options:"
@@ -27,7 +30,7 @@ function help() {
   echo '--output output path'
   echo "--quiet, quiet excute, not output any info"
   echo "--auto-fix, auto fix format errors"
-
+  echo "-v, --version, show version"
 }
 
 while [ $# -gt 0 ]; do
@@ -55,6 +58,11 @@ while [ $# -gt 0 ]; do
     auto_fix=1
     shift
     continue
+    ;;
+  --version | -v)
+    print_version
+    shift
+    exit 0
     ;;
   *)
     file_paths+=("$1")
